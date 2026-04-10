@@ -48,9 +48,9 @@ This is my personal portfolio website where I showcase:
 ---
 
 ## 📬 Contact Me
-- 📧 Email: your-email@example.com  
+- 📧 Email: rafsan.hasan0108@gmail.com  
 - 🌐 GitHub: https://github.com/rafsan6k  
-- 💼 Portfolio: https://github.com/rafsan6k/portfolio  
+- 💼 Portfolio: rafsanhasan.me  
 
 ---
 
