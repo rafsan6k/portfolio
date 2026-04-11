@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Plus, Pencil, Trash2, X, Save, Loader2, Upload, Image as ImageIcon } from "lucide-react";
+import { Plus, Pencil, Trash2, X, Save, Loader2, Upload, Image as ImageIcon, Link as LinkIcon, ExternalLink, Github } from "lucide-react";
 import { toast } from "sonner";
 
 interface ProjectForm {
@@ -162,11 +162,25 @@ const AdminProjects = () => {
         className="w-full px-4 py-3 rounded-lg bg-secondary border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none" />
       <input placeholder="Tags (comma separated)" value={form.tags} onChange={e => setForm({...form, tags: e.target.value})}
         className="w-full px-4 py-3 rounded-lg bg-secondary border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
-      <div className="grid sm:grid-cols-2 gap-4">
-        <input placeholder="Live URL" value={form.live_url} onChange={e => setForm({...form, live_url: e.target.value})}
-          className="w-full px-4 py-3 rounded-lg bg-secondary border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
-        <input placeholder="GitHub URL" value={form.github_url} onChange={e => setForm({...form, github_url: e.target.value})}
-          className="w-full px-4 py-3 rounded-lg bg-secondary border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+      {/* Project Links Section */}
+      <div className="p-4 rounded-lg bg-secondary/50 border border-border space-y-3">
+        <div className="flex items-center gap-2 mb-1">
+          <LinkIcon size={16} className="text-primary" />
+          <span className="text-sm font-semibold text-foreground">Project Links</span>
+          <span className="text-xs text-muted-foreground">(click করলে সরাসরি website এ redirect হবে)</span>
+        </div>
+        <div className="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label className="text-xs text-muted-foreground mb-1 flex items-center gap-1"><ExternalLink size={12} /> Live Website URL</label>
+            <input placeholder="https://your-project-site.com" value={form.live_url} onChange={e => setForm({...form, live_url: e.target.value})}
+              className="w-full px-4 py-3 rounded-lg bg-background border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+          </div>
+          <div>
+            <label className="text-xs text-muted-foreground mb-1 flex items-center gap-1"><Github size={12} /> GitHub URL</label>
+            <input placeholder="https://github.com/user/repo" value={form.github_url} onChange={e => setForm({...form, github_url: e.target.value})}
+              className="w-full px-4 py-3 rounded-lg bg-background border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+          </div>
+        </div>
       </div>
       <div className="flex items-center gap-4">
         <input type="number" placeholder="Order" value={form.display_order} onChange={e => setForm({...form, display_order: parseInt(e.target.value) || 0})}
@@ -212,6 +226,12 @@ const AdminProjects = () => {
                   <div>
                     <h3 className="font-heading font-semibold">{project.title}</h3>
                     <p className="text-xs text-muted-foreground">{project.category} · Order: {project.display_order} {!project.visible && "· Hidden"}</p>
+                    {project.live_url && (
+                      <a href={project.live_url} target="_blank" rel="noopener noreferrer"
+                        className="text-xs text-primary flex items-center gap-1 mt-1 hover:underline">
+                        <ExternalLink size={12} /> {project.live_url}
+                      </a>
+                    )}
                   </div>
                   <div className="flex gap-2">
                     <button onClick={() => startEdit(project)} className="p-2 rounded-lg hover:bg-secondary text-muted-foreground hover:text-foreground">

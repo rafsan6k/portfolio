@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Outlet, Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { LayoutDashboard, FolderOpen, Wrench, FileText, Share2, LogOut, Inbox, Camera } from "lucide-react";
+import { LayoutDashboard, FolderOpen, Wrench, FileText, Share2, LogOut, Inbox, Camera, User } from "lucide-react";
 
 const navItems = [
   { label: "Dashboard", path: "/admin", icon: LayoutDashboard },
   { label: "Submissions", path: "/admin/submissions", icon: Inbox },
   { label: "Content", path: "/admin/content", icon: FileText },
+  { label: "About", path: "/admin/about", icon: User },
   { label: "Projects", path: "/admin/projects", icon: FolderOpen },
   { label: "Skills", path: "/admin/skills", icon: Wrench },
   { label: "Social Links", path: "/admin/social", icon: Share2 },

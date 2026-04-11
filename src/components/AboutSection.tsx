@@ -1,10 +1,26 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Code, Brain, Zap } from "lucide-react";
+import { Code, Brain, Zap, Palette, Globe, Cpu, Sparkles, Rocket, Shield, Database, Terminal, Lightbulb } from "lucide-react";
 import { useSiteContent } from "@/hooks/useSiteContent";
 import { supabase } from "@/integrations/supabase/client";
 
-const icons = [Code, Brain, Zap];
+const iconMap: Record<string, React.ComponentType<any>> = {
+  Code, Brain, Zap, Palette, Globe, Cpu, Sparkles, Rocket, Shield, Database, Terminal, Lightbulb,
+};
+
+interface AboutCard {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  display_order: number;
+}
+
+const defaultCards: AboutCard[] = [
+  { id: "1", title: "Web Development", description: "Building responsive, performant, and scalable web applications.", icon: "Code", display_order: 1 },
+  { id: "2", title: "Prompt Engineering", description: "Crafting optimized AI prompts to drive intelligent and accurate results.", icon: "Brain", display_order: 2 },
+  { id: "3", title: "AI Automations", description: "Creating smart workflows and automations powered by LLM technologies.", icon: "Zap", display_order: 3 },
+];
 
 const AboutSection = () => {
   const ref = useRef(null);
@@ -14,11 +30,19 @@ const AboutSection = () => {
   const photoPath = content?.photo_url;
   const photoUrl = photoPath ? supabase.storage.from("profile_photos").getPublicUrl(photoPath).data.publicUrl : null;
 
-  const cards = [
-    { icon: icons[0], title: content?.card1_title ?? "Web Development", desc: content?.card1_desc ?? "" },
-    { icon: icons[1], title: content?.card2_title ?? "Prompt Engineering", desc: content?.card2_desc ?? "" },
-    { icon: icons[2], title: content?.card3_title ?? "AI Automations", desc: content?.card3_desc ?? "" },
-  ];
+  let parsedCards: AboutCard[] = [];
+  try {
+    parsedCards = content?.cards ? JSON.parse(content.cards) : defaultCards;
+    parsedCards = [...parsedCards].sort((a, b) => a.display_order - b.display_order);
+  } catch(e) {
+    parsedCards = defaultCards;
+  }
+
+  const cards = parsedCards.map(s => ({
+    icon: iconMap[s.icon] || Code,
+    title: s.title,
+    description: s.description,
+  }));
 
   return (
     <section id="about" className="py-24 md:py-32">
@@ -51,7 +75,7 @@ const AboutSection = () => {
               className="p-6 rounded-xl bg-card border border-border hover:glow-border transition-shadow duration-300">
               <card.icon className="w-10 h-10 text-primary mb-4" />
               <h3 className="text-lg font-heading font-semibold mb-2">{card.title}</h3>
-              <p className="text-sm text-muted-foreground">{card.desc}</p>
+              <p className="text-sm text-muted-foreground">{card.description}</p>
             </motion.div>
           ))}
         </div>

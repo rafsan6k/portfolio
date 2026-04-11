@@ -72,3 +72,19 @@ export const useSocialLinks = () => {
     refetchOnWindowFocus: true,
   });
 };
+
+export const useSpecializations = () => {
+  return useQuery({
+    queryKey: ["specializations"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("specializations")
+        .select("*")
+        .order("display_order", { ascending: true });
+      if (error) throw error;
+      return data;
+    },
+    staleTime: 1000 * 30,
+    refetchOnWindowFocus: true,
+  });
+};
