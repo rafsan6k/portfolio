@@ -46,7 +46,7 @@ const HeroSection = () => {
 
         <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.15 }}
           className="text-4xl sm:text-5xl md:text-7xl font-heading font-bold leading-tight mb-6">
-          {content?.prefix ?? "I Build"}{" "}
+          {content?.prefix ?? "I'm a"}{" "}
           <span className="text-gradient">
             {displayText}
             <span className="animate-pulse">|</span>
